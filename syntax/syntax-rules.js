@@ -54,6 +54,46 @@
     });
   });
 
+  var expect = function(value) {
+    return function(datum) {
+      if (!datum.eq(value))
+        return null;
+    }
+  };
+  var capture = function(symbol) {
+    return function(datum, captures) {
+      if (captures.hasOwnProperty(symbol))
+        return null;
+      captures[symbol] = datum;
+    };
+  };
+
+  var car = function(datum) {
+    if (datum.constructor !== ccc.Pair)
+      return null;
+    return datum.car();
+  };
+
+  var cdr = function(datum) {
+    if (datum.constructor !== ccc.Pair)
+      return null;
+    return datum.cdr();
+  };
+
+  var index = function(datum) {
+    if (datum.constructor !== ccc.Vector)
+      return null;
+    if (datum.elements_.length < 1)
+      return null;
+    return datum.elements_[0];
+  };
+
+  var slice = function(datum) {
+    if (datum.constructor !== ccc.Vector)
+      return null;
+
+  };
+
   var compilePattern = function(form) {
     if (form.constructor === ccc.Pair) {
       while (form.constructor === ccc.Pair) {
